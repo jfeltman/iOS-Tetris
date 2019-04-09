@@ -115,6 +115,60 @@ class Shape: Hashable, CustomStringConvertible {
             return Block(column: column + diff.columnDiff, row: row + diff.rowDiff, color: color)
         }
     }
+    
+    final func rotateBlocks(orientation: Orientation) {
+        guard let blockRowColumnTranslation:Array<(columnDiff: Int, rowDiff: Int)> = blockRowColumnPositions[orientation] else
+        {
+            return
+        }
+        
+        // enumertaed allows us to iterate through array with a defined index (idx) and the values at that index (diff)
+        for (idx, diff) in blockRowColumnTranslation.enumerated() {
+            blocks[idx].column = column + diff.columnDiff
+            blocks[idx].row = row + diff.rowDiff
+        }
+    }
+    
+    final func lowerShapeByOneRow() {
+        shiftBy(columns: 0, rows: 1)
+    }
+    
+    // Adjusts the column and rows of a shape by the given col, row
+    final func shiftBy(columns: Int, rows: Int) {
+        self.column += columns
+        self.row += rows
+        for block in blocks {
+            block.column += columns
+            block.row += rows
+        }
+    }
+    
+    // Move the block to the new column and row
+    // After the move, rotate shape back to its current orientation
+    final func moveTo(column: Int, row: Int) {
+        self.column = column
+        self.row = row
+        rotateBlocks(orientation: orientation)
+    }
+    
+    final class func random(startingColumn:Int, startingRow:Int) -> Shape {
+        switch Int(arc4random_uniform(NumShapeTypes)) {
+        case 0:
+            return SquareShape(column:startingColumn, row:startingRow)
+        case 1:
+            return LineShape(column:startingColumn, row:startingRow)
+        case 2:
+            return TShape(column:startingColumn, row:startingRow)
+        case 3:
+            return LShape(column:startingColumn, row:startingRow)
+        case 4:
+            return JShape(column:startingColumn, row:startingRow)
+        case 5:
+            return SShape(column:startingColumn, row:startingRow)
+        default:
+            return ZShape(column:startingColumn, row:startingRow)
+        }
+    }
 }
 
 // Used to compare shapes together, checks row and column
