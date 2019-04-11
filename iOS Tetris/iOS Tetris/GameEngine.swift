@@ -248,12 +248,11 @@ class GameEngine {
                     continue
                 }
                 
-                var newRow = row
-                // Move the block down as far as it can go
-                while (newRow < NumRows - 1 && blockArray[column, newRow + 1] == nil)
-                {
-                    newRow += 1
-                }
+                // JOSH START
+                // Make new row the row plus however many lines are getting removed
+                // Changed from Swiftris were every block get moved down no matter its previous position
+                let newRow = row + removedLines.count
+                // JOSH END
                 
                 block.row = newRow
                 blockArray[column, row] = nil

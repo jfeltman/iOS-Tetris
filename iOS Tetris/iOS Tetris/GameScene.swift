@@ -11,14 +11,26 @@ import GameplayKit
 
 let TickLengthLevelOne = TimeInterval(600)
 
-let BlockSize: CGFloat = 20.0
+var BlockSize: CGFloat = 20.0
 
 class GameScene: SKScene {
+    // JOSH START
+    let screenSize = UIScreen.main.bounds
+    // ipone 8 plus
+    // h - 736.0
+    // w - 414.0
+    
+    // iphone 8
+    // h - 667.0
+    // w - 375.0
+    let LayerPositionIphone8 = CGPoint(x: 6, y: -95)
+    let LayerPositionIphone8Plus = CGPoint(x: 6, y: -110)
+    // JOSH END
     
     let gameLayer = SKNode()
     let shapeLayer = SKNode()
-    let LayerPosition = CGPoint(x: 6, y: -6)
     
+    var LayerPosition = CGPoint(x: 0, y: 0)
     var tick:(() -> ())?
     var tickLengthMillis = TickLengthLevelOne
     var lastTick: NSDate?
@@ -31,6 +43,17 @@ class GameScene: SKScene {
     
     override init(size: CGSize) {
         super.init(size: size)
+        
+        // JOSH START
+        // Set size of block/gameboard depending on screen size
+        if (screenSize.height > 667.0) {
+            LayerPosition = LayerPositionIphone8Plus
+            BlockSize = 25
+        } else {
+            LayerPosition = LayerPositionIphone8
+            BlockSize = 23
+        }
+        // JOSH END
         
         anchorPoint = CGPoint(x: 0, y: 1.0)
         
@@ -46,7 +69,7 @@ class GameScene: SKScene {
                                      size: CGSize(width: BlockSize * CGFloat(NumColumns),
                                                   height: BlockSize * CGFloat(NumRows)))
         
-        gameBoard.anchorPoint = CGPoint(x:0, y:1.0)
+        gameBoard.anchorPoint = CGPoint(x: 0, y: 1.0)
         gameBoard.position = LayerPosition
         
         shapeLayer.position = LayerPosition
@@ -67,7 +90,6 @@ class GameScene: SKScene {
         if timePassed > tickLengthMillis {
             self.lastTick = NSDate()
             tick?()
-            print("tick")
         }
     }
     
@@ -100,7 +122,7 @@ class GameScene: SKScene {
             }
             
             // Set the sprite
-            let sprite = SKSpriteNode(texture: texture)
+            let sprite = SKSpriteNode(texture: texture, size: CGSize(width: BlockSize, height: BlockSize))
             
             // Set the position for each block
             // For the preview, we set it at row -2 so its above the gameboard and will transition to the gameboard smoothly
@@ -169,31 +191,11 @@ class GameScene: SKScene {
         
         for rowToRemove in linesToRemove {
             for block in rowToRemove {
-                // #4
-                let randomRadius = CGFloat(UInt(arc4random_uniform(400) + 100))
-                let goLeft = arc4random_uniform(100) % 2 == 0
-                
-                var point = pointForColumn(column: block.column, row: block.row)
-                point = CGPoint(x: point.x + (goLeft ? -randomRadius : randomRadius), y: point.y)
-                
-                let randomDuration = TimeInterval(arc4random_uniform(2)) + 0.5
-                // #5
-                var startAngle = CGFloat(Double.pi)
-                var endAngle = startAngle * 2
-                if goLeft {
-                    endAngle = startAngle
-                    startAngle = 0
-                }
-                let archPath = UIBezierPath(arcCenter: point, radius: randomRadius, startAngle: startAngle, endAngle: endAngle, clockwise: goLeft)
-                let archAction = SKAction.follow(archPath.cgPath, asOffset: false, orientToPath: true, duration: randomDuration)
-                archAction.timingMode = .easeIn
+                // Changed from Swiftris, get rid of exlpoding animation
                 let sprite = block.sprite!
                 // #6
                 sprite.zPosition = 100
-                sprite.run(
-                    SKAction.sequence(
-                        [SKAction.group([archAction, SKAction.fadeOut(withDuration: TimeInterval(randomDuration))]),
-                         SKAction.removeFromParent()]))
+                sprite.run(SKAction.sequence([SKAction.removeFromParent()]))
             }
         }
         // #7

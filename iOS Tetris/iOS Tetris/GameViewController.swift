@@ -170,9 +170,11 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         if removedLines.linesRemoved.count > 0 {
             self.scoreLabel.text = "\(gameEngine.score)"
             scene.animateCollapsingLines(linesToRemove: removedLines.linesRemoved,
-                                         fallenBlocks:removedLines.fallenBlocks) {
+                                         fallenBlocks:removedLines.fallenBlocks)
+            {
                 // #11
                 self.gameShapeDidLand(gameEngine: gameEngine)
+                //self.nextShape()
             }
             //scene.playSound(sound: "Sounds/bomb.mp3")
         } else {
