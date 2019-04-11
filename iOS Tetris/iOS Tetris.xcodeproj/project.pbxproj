@@ -25,6 +25,7 @@
 		39819AB2225D01CC0041DCAE /* SShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39819AB1225D01CC0041DCAE /* SShape.swift */; };
 		39819AB4225D02300041DCAE /* ZShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39819AB3225D02300041DCAE /* ZShape.swift */; };
 		39819AB6225D05BD0041DCAE /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39819AB5225D05BD0041DCAE /* GameEngine.swift */; };
+		39819AB8225EEB850041DCAE /* GameEngineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39819AB7225EEB850041DCAE /* GameEngineDelegate.swift */; };
 		39F4BEC02257E0E40002607B /* drop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39F4BEBB2257E0E40002607B /* drop.mp3 */; };
 		39F4BEC12257E0E40002607B /* levelup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39F4BEBC2257E0E40002607B /* levelup.mp3 */; };
 		39F4BEC22257E0E40002607B /* gameover.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 39F4BEBD2257E0E40002607B /* gameover.mp3 */; };
@@ -66,6 +67,7 @@
 		39819AB1225D01CC0041DCAE /* SShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SShape.swift; sourceTree = "<group>"; };
 		39819AB3225D02300041DCAE /* ZShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZShape.swift; sourceTree = "<group>"; };
 		39819AB5225D05BD0041DCAE /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
+		39819AB7225EEB850041DCAE /* GameEngineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineDelegate.swift; sourceTree = "<group>"; };
 		39F4BEBB2257E0E40002607B /* drop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = drop.mp3; sourceTree = "<group>"; };
 		39F4BEBC2257E0E40002607B /* levelup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = levelup.mp3; sourceTree = "<group>"; };
 		39F4BEBD2257E0E40002607B /* gameover.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameover.mp3; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				39819AB1225D01CC0041DCAE /* SShape.swift */,
 				39819AB3225D02300041DCAE /* ZShape.swift */,
 				39819AB5225D05BD0041DCAE /* GameEngine.swift */,
+				39819AB7225EEB850041DCAE /* GameEngineDelegate.swift */,
 			);
 			path = "iOS Tetris";
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39819AB8225EEB850041DCAE /* GameEngineDelegate.swift in Sources */,
 				39819AAE225CFF500041DCAE /* LShape.swift in Sources */,
 				39819AA8225CF8BB0041DCAE /* SquareShape.swift in Sources */,
 				3928B2152255D28C00E7BBB6 /* GameScene.swift in Sources */,

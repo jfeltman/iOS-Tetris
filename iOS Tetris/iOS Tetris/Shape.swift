@@ -129,8 +129,34 @@ class Shape: Hashable, CustomStringConvertible {
         }
     }
     
+    // Rotate shape clockwise
+    final func rotateClockwise() {
+        let newOrientation = Orientation.rotate(orientation: orientation, clockwise: true)
+        rotateBlocks(orientation: newOrientation)
+        orientation = newOrientation
+    }
+    
+    // Rotate shape counter clockwise
+    final func rotateCounterClockwise() {
+        let newOrientation = Orientation.rotate(orientation: orientation, clockwise: false)
+        rotateBlocks(orientation: newOrientation)
+        orientation = newOrientation
+    }
+    
     final func lowerShapeByOneRow() {
         shiftBy(columns: 0, rows: 1)
+    }
+    
+    final func raiseShapeByOneRow() {
+        shiftBy(columns: 0, rows: -1)
+    }
+    
+    final func shiftRightByOneColumn() {
+        shiftBy(columns: 1, rows: 0)
+    }
+    
+    final func shiftLeftByOneColumn() {
+        shiftBy(columns: -1, rows: 0)
     }
     
     // Adjusts the column and rows of a shape by the given col, row
