@@ -17,6 +17,9 @@ let StartingRow = 0
 let PreviewColumn = 12
 let PreviewRow = 1
 
+let HoldColumn = 12
+let HoldRow = 10
+
 let PointsPerLine = 10
 let LevelThreshold = 500
 
@@ -24,6 +27,7 @@ class GameEngine {
     var blockArray: Array2D<Block>
     var nextShape: Shape?
     var fallingShape: Shape?
+    var holdShape: Shape?
     var delegate: GameEngineDelegate?
     
     var score = 0
@@ -32,6 +36,7 @@ class GameEngine {
     init() {
         fallingShape = nil
         nextShape = nil
+        holdShape = nil
         blockArray = Array2D<Block>(columns: NumColumns, rows: NumRows)
     }
     
@@ -283,6 +288,35 @@ class GameEngine {
             allBlocks.append(rowOfBlocks)
         }
         return allBlocks
+    }
+    
+    func holdFallingShape() -> (fallingShape: Shape?, nextShape: Shape?, holdShape: Shape?)
+    {
+        // No currently held shape, hold falling shape
+        if (holdShape == nil) {
+            holdShape = fallingShape
+            let newShapes = newShape()
+            
+            delegate?.gameShapeHeld(gameEngine: self)
+            return (newShapes.fallingShape, newShapes.nextShape, holdShape)
+        } else {
+            // There is a shape being held, swap falling shape with held shape
+            let tempFallingShape = fallingShape
+            fallingShape = holdShape
+            holdShape = tempFallingShape
+            
+            fallingShape?.moveTo(column: StartingColumn, row: StartingRow)
+            guard detectIllegalPlacement() == false else {
+                // If shape is at the starting position and collides with another block, the user has lost and the game is over
+                nextShape = fallingShape
+                nextShape!.moveTo(column: PreviewColumn, row: PreviewRow)
+                endGame()
+                return (nil, nil, nil)
+            }
+            
+            delegate?.gameShapeHeld(gameEngine: self)
+            return (fallingShape, nextShape, holdShape)
+        }
     }
     
 }

@@ -24,7 +24,7 @@ class GameScene: SKScene {
     // h - 667.0
     // w - 375.0
     let LayerPositionIphone8 = CGPoint(x: 6, y: -95)
-    let LayerPositionIphone8Plus = CGPoint(x: 6, y: -110)
+    let LayerPositionIphone8Plus = CGPoint(x: 6, y: -125)
     // JOSH END
     
     let gameLayer = SKNode()
@@ -48,7 +48,7 @@ class GameScene: SKScene {
         // Set size of block/gameboard depending on screen size
         if (screenSize.height > 667.0) {
             LayerPosition = LayerPositionIphone8Plus
-            BlockSize = 25
+            BlockSize = 24
         } else {
             LayerPosition = LayerPositionIphone8
             BlockSize = 23
@@ -57,13 +57,14 @@ class GameScene: SKScene {
         
         anchorPoint = CGPoint(x: 0, y: 1.0)
         
+        // create background
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 0, y: 0)
         background.anchorPoint = CGPoint(x: 0, y: 0)
         addChild(background)
         
+        // Create gameboard
         addChild(gameLayer)
-        
         let gameBoardTexture = SKTexture(imageNamed: "gameboard")
         let gameBoard = SKSpriteNode(texture: gameBoardTexture,
                                      size: CGSize(width: BlockSize * CGFloat(NumColumns),
@@ -76,6 +77,13 @@ class GameScene: SKScene {
         shapeLayer.addChild(gameBoard)
         gameLayer.addChild(shapeLayer)
         
+        let holdArea = SKSpriteNode(color: UIColor.clear,
+                                    size: CGSize(width: 120, height: 120))
+        holdArea.position = CGPoint(x: 310, y: -440)
+        holdArea.name = "holdArea"
+        
+        gameLayer.addChild(holdArea)
+                
         //run(SKAction.repeatForever(SKAction.playSoundFileNamed("Sounds/theme.mp3", waitForCompletion: true)))
     }
     
@@ -205,4 +213,41 @@ class GameScene: SKScene {
     func playSound(sound: String) {
         run(SKAction.playSoundFileNamed(sound, waitForCompletion: false))
     }
+    
+    // JOSH START
+    // Draws the hold shape to the right of the game board
+    func addHoldShapeToScene(shape: Shape, completion:@escaping () -> ()) {
+        for block in shape.blocks {
+            var texture = textureCache[block.spriteName]
+            
+            // If no texture cached, fetch one and add it to the cache
+            if texture == nil {
+                texture = SKTexture(imageNamed: block.spriteName)
+                textureCache[block.spriteName] = texture
+            }
+            
+            // Set the sprite
+            let sprite = SKSpriteNode(texture: texture, size: CGSize(width: BlockSize, height: BlockSize))
+            
+            // Set the position for each block
+            // For the preview, we set it at row -2 so its above the gameboard and will transition to the gameboard smoothly
+            sprite.position = pointForColumn(column: block.column + 6, row: block.row + 8)
+            
+            shapeLayer.addChild(sprite)
+            block.sprite = sprite
+        }
+    }
+    
+    func moveHeldShape(shape: Shape, completion: @escaping () -> ()) {
+        for block in shape.blocks {
+            let sprite = block.sprite!
+            let moveTo = pointForColumn(column: block.column, row:block.row + 8)
+            let moveToAction:SKAction = SKAction.move(to: moveTo, duration: 0.2)
+            moveToAction.timingMode = .easeOut
+            sprite.run(
+                SKAction.group([moveToAction, SKAction.fadeAlpha(to: 1.0, duration: 0.2)]), completion: {})
+        }
+        run(SKAction.wait(forDuration: 0.2), completion: completion)
+    }
+    // JOSH END
 }

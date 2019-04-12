@@ -18,6 +18,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
 
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
+    @IBOutlet weak var nextLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,22 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         skView.presentScene(scene)
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch: UITouch = touches.first!
+        let positionInScene = touch.location(in: scene)
+        let touchedNode = scene.atPoint(positionInScene)
+        
+        if let name = touchedNode.name
+        {
+            // Check if hold area has been tapped
+            if name == "holdArea"
+            {
+                print("Touched")
+                self.shapeWasHeld()
+            }
+        }
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -114,6 +131,24 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         }
     }
     
+    // JOSH START
+    func shapeWasHeld() {
+//        let newShapes = gameEngine.holdFallingShape()
+//        guard let fallingShape = newShapes.fallingShape else {
+//            return
+//        }
+        gameEngine.holdShape = gameEngine.fallingShape!
+        
+        //self.scene.addPreviewShapeToScene(shape: newShapes.nextShape!) {}
+        self.scene.addHoldShapeToScene(shape: gameEngine.holdShape!) {}
+//
+//        self.scene.movePreviewShape(shape: fallingShape) {
+//            self.view.isUserInteractionEnabled = true
+//            self.scene.startTicking()
+//        }
+    }
+    // JOSH END
+    
     func gameDidBegin(gameEngine: GameEngine) {
         scoreLabel.text = "\(gameEngine.score)"
         levelLabel.text = "\(gameEngine.level)"
@@ -172,9 +207,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             scene.animateCollapsingLines(linesToRemove: removedLines.linesRemoved,
                                          fallenBlocks:removedLines.fallenBlocks)
             {
-                // #11
                 self.gameShapeDidLand(gameEngine: gameEngine)
-                //self.nextShape()
             }
             //scene.playSound(sound: "Sounds/bomb.mp3")
         } else {
@@ -185,4 +218,10 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     func gameShapeDidMove(gameEngine: GameEngine) {
         scene.redrawShape(shape: gameEngine.fallingShape!) {}
     }
+    
+    // JOSH START
+    func gameShapeHeld(gameEngine: GameEngine) {
+        // idk for now
+    }
+    // JOSH END
 }

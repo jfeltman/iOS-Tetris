@@ -64,20 +64,52 @@
                                     </label>
                                 </subviews>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOLD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ioo-oM-IJj">
+                                <rect key="frame" x="279" y="355.5" width="58.5" height="27"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
+                                <color key="textColor" red="1" green="0.1857388616" blue="0.57339501380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEXT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5HO-2Z-TBS">
+                                <rect key="frame" x="281" y="178" width="54" height="27.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
+                                <color key="textColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="z7w-lr-V4U" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="60" id="AY1-5z-s53"/>
+                            <constraint firstItem="5HO-2Z-TBS" firstAttribute="top" secondItem="d8j-mg-jmf" secondAttribute="bottom" constant="50" id="DJA-vI-5FS"/>
                             <constraint firstItem="d8j-mg-jmf" firstAttribute="leading" secondItem="z7w-lr-V4U" secondAttribute="trailing" constant="92" id="FtX-vF-EYk"/>
+                            <constraint firstItem="5HO-2Z-TBS" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="168" id="JCJ-iD-uA2"/>
+                            <constraint firstItem="5HO-2Z-TBS" firstAttribute="top" secondItem="d8j-mg-jmf" secondAttribute="bottom" constant="48" id="O7A-Tl-xaz"/>
+                            <constraint firstItem="5HO-2Z-TBS" firstAttribute="top" secondItem="d8j-mg-jmf" secondAttribute="bottom" constant="39" id="PZ0-QZ-D4d"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="5HO-2Z-TBS" secondAttribute="trailing" constant="40" id="YAb-gA-FkS"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="Ioo-oM-IJj" secondAttribute="trailing" constant="37.5" id="YjM-sK-QUy"/>
                             <constraint firstItem="z7w-lr-V4U" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="10" id="dkg-Ny-6Gs"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="z7w-lr-V4U" secondAttribute="bottom" constant="547" id="fSg-nR-w0N"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="d8j-mg-jmf" secondAttribute="bottom" constant="537" id="iLg-DW-trW"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="d8j-mg-jmf" secondAttribute="trailing" constant="60" id="jNK-Pi-Av9"/>
                             <constraint firstItem="d8j-mg-jmf" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="10" id="nsx-NJ-4gG"/>
                             <constraint firstAttribute="trailing" secondItem="z7w-lr-V4U" secondAttribute="trailing" constant="231" id="oqq-er-T7y"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="Ioo-oM-IJj" secondAttribute="bottom" constant="284.5" id="yBt-87-JkN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DJA-vI-5FS"/>
+                                <exclude reference="JCJ-iD-uA2"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular">
+                            <mask key="constraints">
+                                <exclude reference="DJA-vI-5FS"/>
+                                <exclude reference="JCJ-iD-uA2"/>
+                                <exclude reference="PZ0-QZ-D4d"/>
+                            </mask>
+                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="3xB-wL-u2O" appends="YES" id="Xki-UC-mzc"/>
                             <outletCollection property="gestureRecognizers" destination="ht1-MP-KjX" appends="YES" id="wZq-nY-Jhq"/>
@@ -86,6 +118,7 @@
                     </view>
                     <connections>
                         <outlet property="levelLabel" destination="dZA-t1-J8t" id="RyN-Fp-2IE"/>
+                        <outlet property="nextLabel" destination="5HO-2Z-TBS" id="wzj-cP-1fr"/>
                         <outlet property="scoreLabel" destination="Zaf-SB-UVi" id="4u2-wF-aDA"/>
                     </connections>
                 </viewController>
@@ -109,6 +142,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
         </scene>
     </scenes>
     <resources>
