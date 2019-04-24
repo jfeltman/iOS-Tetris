@@ -9,7 +9,8 @@
 import SpriteKit
 import GameplayKit
 
-let TickLengthLevelOne = TimeInterval(600)
+let TickLengthLevelOne = TimeInterval(1000)
+let TickLengthLevelTwo = TimeInterval(1000)
 
 var BlockSize: CGFloat = 20.0
 

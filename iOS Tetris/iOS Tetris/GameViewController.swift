@@ -15,6 +15,8 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     var scene: GameScene!
     var gameEngine: GameEngine!
     var panPointReference: CGPoint?
+    
+    var startingDifficulty: Int!
 
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
@@ -35,7 +37,11 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         
         gameEngine = GameEngine()
         gameEngine.delegate = self
+        
         gameEngine.beginGame()
+        
+        // JOSH - set game level
+        setGameLevel(gameEngine: gameEngine)
         
         // Present the scene
         skView.presentScene(scene)
@@ -52,7 +58,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             if name == "holdArea"
             {
                 print("Touched")
-                self.shapeWasHeld()
+                //self.shapeWasHeld()
             }
         }
     }
@@ -222,6 +228,28 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     // JOSH START
     func gameShapeHeld(gameEngine: GameEngine) {
         // idk for now
+    }
+    
+    func setGameLevel(gameEngine: GameEngine) {
+        switch (startingDifficulty) {
+        case 1:
+            // do nothing
+            break
+        case 2:
+            // Increase game level to level 4
+            gameEngine.level = 4
+            for _ in 1...4 {
+                gameDidLevelUp(gameEngine: gameEngine)
+            }
+        case 3:
+            // increase game level to level 8
+            gameEngine.level = 8
+            for _ in 1...8 {
+                gameDidLevelUp(gameEngine: gameEngine)
+            }
+        default:
+            break
+        }
     }
     // JOSH END
 }

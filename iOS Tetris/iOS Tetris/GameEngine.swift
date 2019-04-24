@@ -21,7 +21,7 @@ let HoldColumn = 12
 let HoldRow = 10
 
 let PointsPerLine = 10
-let LevelThreshold = 500
+let LevelThreshold = 50
 
 class GameEngine {
     var blockArray: Array2D<Block>
@@ -237,7 +237,7 @@ class GameEngine {
         let pointsEarned = removedLines.count * PointsPerLine * level
         score += pointsEarned
         
-        // if score goes over (leve * threshold), increase the level
+        // if score goes over (level * threshold), increase the level
         if score >= level * LevelThreshold {
             level += 1
             delegate?.gameDidLevelUp(gameEngine: self)

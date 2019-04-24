@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3QR-U3-6A4">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -142,10 +142,186 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
+            <point key="canvasLocation" x="1303" y="27"/>
+        </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="alR-81-9Fh">
+            <objects>
+                <viewController id="3QR-U3-6A4" customClass="MenuViewController" customModule="iOS_Tetris" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="on5-S7-YHn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iOS Tetris" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFU-ot-zvB">
+                                <rect key="frame" x="92" y="20" width="191" height="57"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <color key="textColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ErF-q0-V1C">
+                                <rect key="frame" x="162" y="328" width="51" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Play">
+                                    <color key="titleColor" red="1" green="0.1857388616" blue="0.57339501380000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="4la-kf-biR" kind="show" id="au9-BT-UHk"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tetris-pic.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="eI5-H7-MHS">
+                                <rect key="frame" x="16" y="85" width="343" height="217"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="217" id="8tq-dE-O4z"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIm-0h-pbi">
+                                <rect key="frame" x="111" y="405" width="153" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Leaderboard">
+                                    <color key="titleColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="d4j-1r-jix" kind="show" id="BI1-1C-YkK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ErF-q0-V1C" firstAttribute="centerX" secondItem="on5-S7-YHn" secondAttribute="centerX" id="CUw-Vw-b8X"/>
+                            <constraint firstItem="pFU-ot-zvB" firstAttribute="top" secondItem="Vio-e3-kk9" secondAttribute="top" id="LQG-js-6CC"/>
+                            <constraint firstItem="eI5-H7-MHS" firstAttribute="centerX" secondItem="on5-S7-YHn" secondAttribute="centerX" id="NVD-F6-J8v"/>
+                            <constraint firstItem="eI5-H7-MHS" firstAttribute="leading" secondItem="on5-S7-YHn" secondAttribute="leadingMargin" id="OGG-DM-lXl"/>
+                            <constraint firstItem="RIm-0h-pbi" firstAttribute="centerX" secondItem="on5-S7-YHn" secondAttribute="centerX" id="UwP-Wv-bqc"/>
+                            <constraint firstItem="ErF-q0-V1C" firstAttribute="top" secondItem="eI5-H7-MHS" secondAttribute="bottom" constant="26" id="aRo-T8-Jnr"/>
+                            <constraint firstItem="RIm-0h-pbi" firstAttribute="top" secondItem="ErF-q0-V1C" secondAttribute="bottom" constant="31" id="iw1-Ie-q9C"/>
+                            <constraint firstItem="pFU-ot-zvB" firstAttribute="centerX" secondItem="on5-S7-YHn" secondAttribute="centerX" id="l96-5M-HZz"/>
+                            <constraint firstItem="eI5-H7-MHS" firstAttribute="top" secondItem="pFU-ot-zvB" secondAttribute="bottom" constant="8" id="nLf-Z1-oa9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vio-e3-kk9"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8R2-56-EYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-864.79999999999995" y="26.53673163418291"/>
+        </scene>
+        <!--Play View Controller-->
+        <scene sceneID="ZnN-qD-3Ju">
+            <objects>
+                <viewController id="4la-kf-biR" customClass="PlayViewController" customModule="iOS_Tetris" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ym7-UI-CxF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a Starting Level:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkJ-Pk-IhN">
+                                <rect key="frame" x="21.5" y="96" width="332" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <color key="textColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jv5-SZ-1az">
+                                <rect key="frame" x="119" y="212" width="137" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Level 1 (Easy)">
+                                    <color key="titleColor" red="0.0" green="0.98106676339999999" blue="0.57369142770000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelOneTapped:" destination="4la-kf-biR" eventType="touchUpInside" id="AbV-G0-ymN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxG-Pf-bhD">
+                                <rect key="frame" x="100.5" y="279" width="174" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Level 4 (Medium)">
+                                    <color key="titleColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelTwoTapped:" destination="4la-kf-biR" eventType="touchUpInside" id="cm6-0B-R0U"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TlT-OH-NPn">
+                                <rect key="frame" x="117" y="344" width="141" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Level 8 (Hard)">
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelThreeTapped:" destination="4la-kf-biR" eventType="touchUpInside" id="078-Cq-xkz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPk-io-mcO">
+                                <rect key="frame" x="16" y="20" width="44" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="3QR-U3-6A4" kind="show" id="Izz-4S-tV1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TlT-OH-NPn" firstAttribute="centerX" secondItem="Ym7-UI-CxF" secondAttribute="centerX" id="5cT-xT-doG"/>
+                            <constraint firstItem="PkJ-Pk-IhN" firstAttribute="centerX" secondItem="Ym7-UI-CxF" secondAttribute="centerX" id="6tg-G5-2M5"/>
+                            <constraint firstItem="Jv5-SZ-1az" firstAttribute="top" secondItem="PkJ-Pk-IhN" secondAttribute="bottom" constant="75" id="8j0-pW-ykK"/>
+                            <constraint firstItem="bxG-Pf-bhD" firstAttribute="centerX" secondItem="Ym7-UI-CxF" secondAttribute="centerX" id="8jI-zT-AQy"/>
+                            <constraint firstItem="bxG-Pf-bhD" firstAttribute="top" secondItem="Jv5-SZ-1az" secondAttribute="bottom" constant="27" id="9kg-Nr-5jQ"/>
+                            <constraint firstItem="PkJ-Pk-IhN" firstAttribute="top" secondItem="cPk-io-mcO" secondAttribute="bottom" constant="40" id="Ioa-pt-2WP"/>
+                            <constraint firstItem="cPk-io-mcO" firstAttribute="top" secondItem="rX4-QF-FkE" secondAttribute="top" id="e4D-jN-EXA"/>
+                            <constraint firstItem="TlT-OH-NPn" firstAttribute="top" secondItem="bxG-Pf-bhD" secondAttribute="bottom" constant="25" id="fsV-Au-mIK"/>
+                            <constraint firstItem="cPk-io-mcO" firstAttribute="leading" secondItem="rX4-QF-FkE" secondAttribute="leading" constant="16" id="kxj-lU-Fcw"/>
+                            <constraint firstItem="Jv5-SZ-1az" firstAttribute="centerX" secondItem="Ym7-UI-CxF" secondAttribute="centerX" id="wBF-Ye-E9U"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="rX4-QF-FkE"/>
+                    </view>
+                    <connections>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="levelOneSegue" id="JhU-Om-ZzI"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="levelTwoSegue" id="FtX-Td-2aC"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="levelThreeSegue" id="4Pg-5o-Eh7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wfb-lp-b3R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="217" y="-367"/>
+        </scene>
+        <!--Leaderboard View Controller-->
+        <scene sceneID="LxF-rC-LSY">
+            <objects>
+                <viewController id="d4j-1r-jix" customClass="LeaderboardViewController" customModule="iOS_Tetris" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7tw-jH-1hR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLu-sf-uiy">
+                                <rect key="frame" x="16" y="20" width="44" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="3QR-U3-6A4" kind="show" id="5o8-aT-HsR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VLu-sf-uiy" firstAttribute="leading" secondItem="cc0-rm-PZo" secondAttribute="leading" constant="16" id="Inu-QS-ptA"/>
+                            <constraint firstItem="VLu-sf-uiy" firstAttribute="top" secondItem="cc0-rm-PZo" secondAttribute="top" id="UbV-hP-cEb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cc0-rm-PZo"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pJJ-UL-fiY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="217" y="450"/>
         </scene>
     </scenes>
     <resources>
+        <image name="tetris-pic.jpg" width="625" height="352"/>
         <image name="whitebg" width="84" height="100"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Izz-4S-tV1"/>
+        <segue reference="4Pg-5o-Eh7"/>
+    </inferredMetricsTieBreakers>
 </document>
