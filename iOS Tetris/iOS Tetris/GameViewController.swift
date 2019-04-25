@@ -10,6 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import CoreData
+import AVFoundation
 
 class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecognizerDelegate {
     
@@ -20,6 +21,9 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     var startingDifficulty: Int!
     var managedObjectContext: NSManagedObjectContext!
     var appDelegate: AppDelegate!
+    var audioPlayer: AVAudioPlayer!
+    
+    let musicURL = Bundle.main.url(forResource: "theme.mp3", withExtension: nil)
 
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
@@ -35,6 +39,15 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         
         // hide game over label
         gameOverLabel.isHidden = true
+        
+        // Play background music
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: musicURL!)
+        } catch {
+            print("error accessing music")
+        }
+        audioPlayer.volume = 0.25
+        audioPlayer.numberOfLoops = -1 // loop forever
         
         // configure the view
         let skView = view as! SKView
@@ -172,6 +185,8 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     // JOSH END
     
     func gameDidBegin(gameEngine: GameEngine) {
+        audioPlayer.play()
+        
         scoreLabel.text = "\(gameEngine.score)"
         levelLabel.text = "\(gameEngine.level)"
         scene.tickLengthMillis = TickLengthLevelOne
@@ -187,6 +202,9 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     }
     
     func gameDidEnd(gameEngine: GameEngine) {
+        audioPlayer.pause()
+        scene.playSound(sound: "gameover.mp3")
+        
         view.isUserInteractionEnabled = false
         scene.stopTicking()
 
@@ -213,7 +231,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             scene.tickLengthMillis -= 50
         }
         
-        //scene.playSound(sound: "Sounds/levelup.mp3")
+        scene.playSound(sound: "levelup.mp3")
     }
     
     func gameShapeDidDrop(gameEngine: GameEngine) {
@@ -222,7 +240,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             gameEngine.letShapeFall()
         }
         
-        //scene.playSound(sound: "Sounds/drop.mp3")
+        scene.playSound(sound: "drop.mp3")
     }
     
     func gameShapeDidLand(gameEngine: GameEngine) {
@@ -238,7 +256,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             {
                 self.gameShapeDidLand(gameEngine: gameEngine)
             }
-            //scene.playSound(sound: "Sounds/bomb.mp3")
+            scene.playSound(sound: "bomb.mp3")
         } else {
             nextShape()
         }
@@ -250,7 +268,6 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     
     // JOSH START
     func gameShapeHeld(gameEngine: GameEngine) {
-        // idk for now
     }
     
     func setGameLevel(gameEngine: GameEngine) {

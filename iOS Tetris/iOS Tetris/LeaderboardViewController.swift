@@ -48,7 +48,6 @@ class LeaderboardViewController: UIViewController {
         } catch {
             print("leaderboard error: \(error)")
         }
-        print("Found \(scores.count) scores")
         
         var allScores: [Int] = []
         
@@ -66,7 +65,6 @@ class LeaderboardViewController: UIViewController {
             if (i == 10) {
                 break
             }
-            print(allScores[i])
             
             scoreLabels[i].text = "\(i + 1). \(allScores[i])"
             scoreLabels[i].isHidden = false

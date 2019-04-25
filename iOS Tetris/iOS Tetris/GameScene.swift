@@ -17,13 +17,6 @@ var BlockSize: CGFloat = 20.0
 class GameScene: SKScene {
     // JOSH START
     let screenSize = UIScreen.main.bounds
-    // ipone 8 plus
-    // h - 736.0
-    // w - 414.0
-    
-    // iphone 8
-    // h - 667.0
-    // w - 375.0
     let LayerPositionIphone8 = CGPoint(x: 6, y: -95)
     let LayerPositionIphone8Plus = CGPoint(x: 6, y: -125)
     // JOSH END
@@ -78,14 +71,13 @@ class GameScene: SKScene {
         shapeLayer.addChild(gameBoard)
         gameLayer.addChild(shapeLayer)
         
+        // JOSH - create hold node
         let holdArea = SKSpriteNode(color: UIColor.clear,
                                     size: CGSize(width: 120, height: 120))
         holdArea.position = CGPoint(x: 310, y: -440)
         holdArea.name = "holdArea"
         
         gameLayer.addChild(holdArea)
-                
-        //run(SKAction.repeatForever(SKAction.playSoundFileNamed("Sounds/theme.mp3", waitForCompletion: true)))
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -251,4 +243,5 @@ class GameScene: SKScene {
         run(SKAction.wait(forDuration: 0.2), completion: completion)
     }
     // JOSH END
+    
 }
