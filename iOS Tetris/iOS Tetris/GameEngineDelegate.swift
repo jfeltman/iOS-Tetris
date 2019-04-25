@@ -26,9 +26,4 @@ protocol GameEngineDelegate {
     
     // Invoked when the game has reached a new level
     func gameDidLevelUp(gameEngine: GameEngine)
-    
-    // JOSH START
-    // Invoked when the falling shape has been held
-    func gameShapeHeld(gameEngine: GameEngine)
-    // JOSH END
 }

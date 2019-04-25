@@ -17,23 +17,26 @@ let StartingRow = 0
 let PreviewColumn = 12
 let PreviewRow = 1
 
-let HoldColumn = 12
-let HoldRow = 10
+let HoldColumn = 12 // JOSH
+let HoldRow = 9 // JOSH
 
 let PointsPerLine = 10
-let LevelThreshold = 100
+let LevelThreshold = 200
 
 class GameEngine {
     var blockArray: Array2D<Block>
     var nextShape: Shape?
     var fallingShape: Shape?
-    var holdShape: Shape?
+    var holdShape: Shape? // JOSH
     var delegate: GameEngineDelegate?
     
     var score = 0
     var level = 1
     
+    // JOSH start
     var gameOver = false
+    var holdAllowed = true
+    // JOSH end
     
     init() {
         fallingShape = nil
@@ -44,7 +47,7 @@ class GameEngine {
     
     // Start game, create the next shape
     func beginGame() {
-        gameOver = false
+        gameOver = false // JOSH
         
         if (nextShape == nil) {
             nextShape = Shape.random(startingColumn: PreviewColumn, startingRow: PreviewRow)
@@ -182,6 +185,9 @@ class GameEngine {
         
         // Nullify falling shape since it is now apart of the gameboard
         fallingShape = nil
+        
+        // JOSH - once current shape has landed, allow holding again
+        holdAllowed = true
         delegate?.gameShapeDidLand(gameEngine: self)
     }
     
@@ -202,7 +208,7 @@ class GameEngine {
     }
     
     func endGame() {
-        gameOver = true
+        gameOver = true // JOSH
         level = 1
         delegate?.gameDidEnd(gameEngine: self)
     }
@@ -294,14 +300,20 @@ class GameEngine {
         return allBlocks
     }
     
+    // JOSH START
+    // Hold the current falling shape, return all the shapes
     func holdFallingShape() -> (fallingShape: Shape?, nextShape: Shape?, holdShape: Shape?)
     {
+        holdAllowed = false
+        
         // No currently held shape, hold falling shape
         if (holdShape == nil) {
             holdShape = fallingShape
             let newShapes = newShape()
             
-            delegate?.gameShapeHeld(gameEngine: self)
+            // move hold shape to the side
+            holdShape!.moveTo(column: HoldColumn, row: HoldRow)
+            
             return (newShapes.fallingShape, newShapes.nextShape, holdShape)
         } else {
             // There is a shape being held, swap falling shape with held shape
@@ -309,7 +321,12 @@ class GameEngine {
             fallingShape = holdShape
             holdShape = tempFallingShape
             
+            // move hold shape to the side
+            holdShape!.moveTo(column: HoldColumn, row: HoldRow)
+            
+            // move falling shape to the top of the game board
             fallingShape?.moveTo(column: StartingColumn, row: StartingRow)
+            
             guard detectIllegalPlacement() == false else {
                 // If shape is at the starting position and collides with another block, the user has lost and the game is over
                 nextShape = fallingShape
@@ -318,9 +335,9 @@ class GameEngine {
                 return (nil, nil, nil)
             }
             
-            delegate?.gameShapeHeld(gameEngine: self)
             return (fallingShape, nextShape, holdShape)
         }
     }
     
+    // JOSH END
 }

@@ -16,19 +16,22 @@ class PlayViewController: UIViewController {
         
     }
     
+    // Transition to game
     @IBAction func levelOneTapped(_ sender: UIButton) {
-        // Perform segue
         performSegue(withIdentifier: "levelOneSegue", sender: nil)
     }
     
+    // Transition to game
     @IBAction func levelTwoTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "levelTwoSegue", sender: nil)
     }
     
+    // Transition to game
     @IBAction func levelThreeTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "levelThreeSegue", sender: nil)
     }
     
+    // Set difficulty in game view controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "levelOneSegue") {
             let gameVC = segue.destination as! GameViewController

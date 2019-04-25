@@ -19,6 +19,13 @@ class GameScene: SKScene {
     let screenSize = UIScreen.main.bounds
     let LayerPositionIphone8 = CGPoint(x: 6, y: -95)
     let LayerPositionIphone8Plus = CGPoint(x: 6, y: -125)
+    
+    let holdAreaIphone8 = CGPoint(x: 310, y: -440)
+    let holdSizeIphone8 = CGSize(width: 110, height: 110)
+    let holdAreaIphone8Plus = CGPoint(x: 335, y: -515)
+    let holdSizeIphone8Plus = CGSize(width: 130, height: 130)
+    var holdAreaPosition: CGPoint!
+    var holdSize: CGSize!
     // JOSH END
     
     let gameLayer = SKNode()
@@ -42,9 +49,13 @@ class GameScene: SKScene {
         // Set size of block/gameboard depending on screen size
         if (screenSize.height > 667.0) {
             LayerPosition = LayerPositionIphone8Plus
+            holdAreaPosition = holdAreaIphone8Plus
+            holdSize = holdSizeIphone8Plus
             BlockSize = 24
         } else {
             LayerPosition = LayerPositionIphone8
+            holdAreaPosition = holdAreaIphone8
+            holdSize = holdSizeIphone8
             BlockSize = 23
         }
         // JOSH END
@@ -72,9 +83,8 @@ class GameScene: SKScene {
         gameLayer.addChild(shapeLayer)
         
         // JOSH - create hold node
-        let holdArea = SKSpriteNode(color: UIColor.clear,
-                                    size: CGSize(width: 120, height: 120))
-        holdArea.position = CGPoint(x: 310, y: -440)
+        let holdArea = SKSpriteNode(color: UIColor.clear, size: holdSize)
+        holdArea.position = holdAreaPosition
         holdArea.name = "holdArea"
         
         gameLayer.addChild(holdArea)
@@ -177,7 +187,6 @@ class GameScene: SKScene {
             for (blockIdx, block) in column.enumerated() {
                 let newPosition = pointForColumn(column: block.column, row: block.row)
                 let sprite = block.sprite!
-                // #3
                 let delay = (TimeInterval(columnIdx) * 0.05) + (TimeInterval(blockIdx) * 0.05)
                 let duration = TimeInterval(((sprite.position.y - newPosition.y) / BlockSize) * 0.1)
                 let moveAction = SKAction.move(to: newPosition, duration: duration)
@@ -194,47 +203,24 @@ class GameScene: SKScene {
             for block in rowToRemove {
                 // Changed from Swiftris, get rid of exlpoding animation
                 let sprite = block.sprite!
-                // #6
                 sprite.zPosition = 100
                 sprite.run(SKAction.sequence([SKAction.removeFromParent()]))
             }
         }
-        // #7
         run(SKAction.wait(forDuration: longestDuration), completion:completion)
     }
     
     func playSound(sound: String) {
-        run(SKAction.playSoundFileNamed(sound, waitForCompletion: false))
+        let soundEffect = SKAction.playSoundFileNamed(sound, waitForCompletion: false)
+        run(soundEffect)
     }
     
     // JOSH START
-    // Draws the hold shape to the right of the game board
-    func addHoldShapeToScene(shape: Shape, completion:@escaping () -> ()) {
-        for block in shape.blocks {
-            var texture = textureCache[block.spriteName]
-            
-            // If no texture cached, fetch one and add it to the cache
-            if texture == nil {
-                texture = SKTexture(imageNamed: block.spriteName)
-                textureCache[block.spriteName] = texture
-            }
-            
-            // Set the sprite
-            let sprite = SKSpriteNode(texture: texture, size: CGSize(width: BlockSize, height: BlockSize))
-            
-            // Set the position for each block
-            // For the preview, we set it at row -2 so its above the gameboard and will transition to the gameboard smoothly
-            sprite.position = pointForColumn(column: block.column + 6, row: block.row + 8)
-            
-            shapeLayer.addChild(sprite)
-            block.sprite = sprite
-        }
-    }
-    
+    // Move the hold shape to the hold col/row
     func moveHeldShape(shape: Shape, completion: @escaping () -> ()) {
         for block in shape.blocks {
             let sprite = block.sprite!
-            let moveTo = pointForColumn(column: block.column, row:block.row + 8)
+            let moveTo = pointForColumn(column: block.column, row:block.row)
             let moveToAction:SKAction = SKAction.move(to: moveTo, duration: 0.2)
             moveToAction.timingMode = .easeOut
             sprite.run(

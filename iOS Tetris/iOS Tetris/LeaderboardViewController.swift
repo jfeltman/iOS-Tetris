@@ -40,7 +40,9 @@ class LeaderboardViewController: UIViewController {
         getTopTenScores()
     }
     
+    // Get all the saved scores and set the top ten highest
     func getTopTenScores() {
+        // Query core data for scores
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "ScoreEntity")
         var scores: [NSManagedObject]!
         do {
@@ -51,6 +53,7 @@ class LeaderboardViewController: UIViewController {
         
         var allScores: [Int] = []
         
+        // Get the actual scores into an arary
         for score in scores {
             let s = score.value(forKey: "score") as! Int
             allScores.append(s)
@@ -71,6 +74,7 @@ class LeaderboardViewController: UIViewController {
         }
     }
     
+    // Create score labels array and hide all scores
     func initScoreLabels() {
         scoreLabels = [scoreOne, scoreTwo, scoreThree, scoreFour, scoreFive, scoreSix, scoreSeven, scoreEight, scoreNine, scoreTen]
         

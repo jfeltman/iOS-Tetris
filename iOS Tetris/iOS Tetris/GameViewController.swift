@@ -22,6 +22,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     var managedObjectContext: NSManagedObjectContext!
     var appDelegate: AppDelegate!
     var audioPlayer: AVAudioPlayer!
+    var firstHold: Bool = false
     
     let musicURL = Bundle.main.url(forResource: "theme.mp3", withExtension: nil)
 
@@ -30,10 +31,21 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var gameOverLabel: UILabel!
     
+    // JOSH START
+    @IBAction func pauseTapped(_ sender: UIButton) {
+        // stop game
+        scene.stopTicking()
+        audioPlayer.pause()
+        
+        // show pause alert
+        createPauseAlert()
+    }
+    // JOSH END
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // JOSH - core data
+        // JOSH START - core data
         self.appDelegate = UIApplication.shared.delegate as? AppDelegate
         self.managedObjectContext = appDelegate.persistentContainer.viewContext
         
@@ -48,6 +60,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         }
         audioPlayer.volume = 0.25
         audioPlayer.numberOfLoops = -1 // loop forever
+        // JOSH END
         
         // configure the view
         let skView = view as! SKView
@@ -71,6 +84,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         skView.presentScene(scene)
     }
 
+    // JOSH START
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch = touches.first!
         let positionInScene = touch.location(in: scene)
@@ -81,23 +95,25 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             // Check if hold area has been tapped
             if name == "holdArea"
             {
-                print("Touched")
-                //scene.stopTicking()
-                //self.shapeWasHeld()
+                // hold the shape
+                self.shapeWasHeld()
             }
         }
     }
+    // JOSH END
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     @IBAction func userDidTap(_ sender: UITapGestureRecognizer) {
+        // JOSH START
         if (gameEngine.gameOver == false) {
             gameEngine.rotateShape()
         } else {
             performSegue(withIdentifier: "menuSegue", sender: nil)
         }
+        // JOSH END
     }
     
     @IBAction func userDidPan(_ sender: UIPanGestureRecognizer) {
@@ -168,24 +184,25 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     
     // JOSH START
     func shapeWasHeld() {
-//        let newShapes = gameEngine.holdFallingShape()
-//        guard let fallingShape = newShapes.fallingShape else {
-//            return
-//        }
-        gameEngine.holdShape = gameEngine.fallingShape!
-        
-        //self.scene.addPreviewShapeToScene(shape: newShapes.nextShape!) {}
-        self.scene.addHoldShapeToScene(shape: gameEngine.holdShape!) {}
-//
-//        self.scene.movePreviewShape(shape: fallingShape) {
-//            self.view.isUserInteractionEnabled = true
-//            self.scene.startTicking()
-//        }
+        // User is only allowed to hold once until the current shape has fallen
+        if (gameEngine.holdAllowed != false) {
+            let newShapes = gameEngine.holdFallingShape()
+            guard let holdShape = newShapes.holdShape else {
+                return
+            }
+            
+            if (firstHold != true) {
+                self.scene.addPreviewShapeToScene(shape: newShapes.nextShape!) {}
+                firstHold = true
+            }
+            
+            self.scene.moveHeldShape(shape: holdShape) {}
+        }
     }
     // JOSH END
     
     func gameDidBegin(gameEngine: GameEngine) {
-        audioPlayer.play()
+        audioPlayer.play() // JOSH
         
         scoreLabel.text = "\(gameEngine.score)"
         levelLabel.text = "\(gameEngine.level)"
@@ -202,6 +219,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     }
     
     func gameDidEnd(gameEngine: GameEngine) {
+        // JOSH START
         audioPlayer.pause()
         scene.playSound(sound: "gameover.mp3")
         
@@ -217,8 +235,10 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         scene.animateCollapsingLines(linesToRemove: gameEngine.removeAllBlocks(),
                                      fallenBlocks: gameEngine.removeAllBlocks())
         {
+            // reenable user interaction so the user can tap to go back to the menu
             self.view.isUserInteractionEnabled = true
         }
+        // JOSH END
         
     }
     
@@ -266,10 +286,8 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         scene.redrawShape(shape: gameEngine.fallingShape!) {}
     }
     
-    // JOSH START
-    func gameShapeHeld(gameEngine: GameEngine) {
-    }
-    
+    // JOSH START    
+    // Set the game level
     func setGameLevel(gameEngine: GameEngine) {
         switch (startingDifficulty) {
         case 1:
@@ -292,11 +310,32 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         }
     }
     
+    // Save score to core data
     func saveScore(score: Int) {
         let newScore = NSEntityDescription.insertNewObject(forEntityName: "ScoreEntity", into: self.managedObjectContext)
         newScore.setValue(score, forKey: "score")
 
         self.appDelegate.saveContext()
+    }
+    
+    // Create the pause alert for either quiting the game or continuing
+    func createPauseAlert() {
+        let alert = UIAlertController(title: "Game Paused", message: nil, preferredStyle: .alert)
+        
+        let continueAction = UIAlertAction(title: "Continue", style: .default) { (UIAlertAction) in
+            // unpause game
+            self.scene.startTicking()
+            self.audioPlayer.play()
+        }
+        
+        let quitAction = UIAlertAction(title: "Quit", style: .cancel) { (UIAlertAction) in
+            self.performSegue(withIdentifier: "menuSegue", sender: nil)
+        }
+        
+        alert.addAction(quitAction)
+        alert.addAction(continueAction)
+        alert.preferredAction = continueAction
+        present(alert, animated: true, completion: nil)
     }
     // JOSH END
 }
