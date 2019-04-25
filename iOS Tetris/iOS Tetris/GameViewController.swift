@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import CoreData
 
 class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecognizerDelegate {
     
@@ -17,13 +18,23 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     var panPointReference: CGPoint?
     
     var startingDifficulty: Int!
+    var managedObjectContext: NSManagedObjectContext!
+    var appDelegate: AppDelegate!
 
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var nextLabel: UILabel!
+    @IBOutlet weak var gameOverLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // JOSH - core data
+        self.appDelegate = UIApplication.shared.delegate as? AppDelegate
+        self.managedObjectContext = appDelegate.persistentContainer.viewContext
+        
+        // hide game over label
+        gameOverLabel.isHidden = true
         
         // configure the view
         let skView = view as! SKView
@@ -58,6 +69,7 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
             if name == "holdArea"
             {
                 print("Touched")
+                //scene.stopTicking()
                 //self.shapeWasHeld()
             }
         }
@@ -68,7 +80,11 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
     }
     
     @IBAction func userDidTap(_ sender: UITapGestureRecognizer) {
-        gameEngine.rotateShape()
+        if (gameEngine.gameOver == false) {
+            gameEngine.rotateShape()
+        } else {
+            performSegue(withIdentifier: "menuSegue", sender: nil)
+        }
     }
     
     @IBAction func userDidPan(_ sender: UIPanGestureRecognizer) {
@@ -174,9 +190,16 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         view.isUserInteractionEnabled = false
         scene.stopTicking()
 
+        print("FINAL SCORE: \(gameEngine.score)")
+        saveScore(score: gameEngine.score)
+        
+        gameEngine.score = 0
+        gameOverLabel.isHidden = false
+    
         scene.animateCollapsingLines(linesToRemove: gameEngine.removeAllBlocks(),
-                                     fallenBlocks: gameEngine.removeAllBlocks()) {
-            gameEngine.beginGame()
+                                     fallenBlocks: gameEngine.removeAllBlocks())
+        {
+            self.view.isUserInteractionEnabled = true
         }
         
     }
@@ -250,6 +273,13 @@ class GameViewController: UIViewController, GameEngineDelegate, UIGestureRecogni
         default:
             break
         }
+    }
+    
+    func saveScore(score: Int) {
+        let newScore = NSEntityDescription.insertNewObject(forEntityName: "ScoreEntity", into: self.managedObjectContext)
+        newScore.setValue(score, forKey: "score")
+
+        self.appDelegate.saveContext()
     }
     // JOSH END
 }

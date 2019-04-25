@@ -21,7 +21,7 @@ let HoldColumn = 12
 let HoldRow = 10
 
 let PointsPerLine = 10
-let LevelThreshold = 50
+let LevelThreshold = 100
 
 class GameEngine {
     var blockArray: Array2D<Block>
@@ -33,6 +33,8 @@ class GameEngine {
     var score = 0
     var level = 1
     
+    var gameOver = false
+    
     init() {
         fallingShape = nil
         nextShape = nil
@@ -42,6 +44,8 @@ class GameEngine {
     
     // Start game, create the next shape
     func beginGame() {
+        gameOver = false
+        
         if (nextShape == nil) {
             nextShape = Shape.random(startingColumn: PreviewColumn, startingRow: PreviewRow)
         }
@@ -198,7 +202,7 @@ class GameEngine {
     }
     
     func endGame() {
-        score = 0
+        gameOver = true
         level = 1
         delegate?.gameDidEnd(gameEngine: self)
     }
